@@ -1,10 +1,9 @@
 <template>
   <section>
-    <ul ref="drag">
+    <ul ref="drag" v-bind:class="getClass">
       <Hijo v-for="item in items"
         v-bind:item="item"
-        v-bind:key="item" 
-        :preventClick="mouseMove"/>­
+        v-bind:key="item"/>
     </ul>
   </section>
 </template>
@@ -19,9 +18,22 @@ export default {
     Hijo
   },
   data() {
-    return { 
+    return {
       items: Array.apply(null, {length: 100}).map(Number.call, Number)
+    }
+  },
+  computed: {
+    getClass() {
+      return this.dragging ? 'disabled' : ''
     }
   }
 }
 </script>
+<style scoped>
+  .disabled {
+    cursor: grabbing;
+  }
+  .disabled * {
+    pointer-events: none;
+  }
+</style>

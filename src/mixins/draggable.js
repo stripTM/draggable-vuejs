@@ -77,7 +77,13 @@ export const draggable = {
       }
     },
     handleMouseUp() {
+      this.mouseMove = false;
       this.mouseDown = false;
+    }
+  },
+  computed: {
+    dragging() {
+      return this.mouseMove;
     }
   }
 };

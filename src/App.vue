@@ -26,7 +26,7 @@ export default {
 }
 ul {
   display: flex;
-  cursor: move;
+  cursor: grab;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -37,10 +37,14 @@ ul {
 }
 ul li {
   background-color: #cac;
+  transition: background-color 0.3s;
 }
 ul li:nth-child(2n) {
   background-color: #acc;
   margin: 1rem;
+}
+ul li.click {
+  background-color: yellow;
 }
 ul li a {
   padding: 0.5rem 1rem;

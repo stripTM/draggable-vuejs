@@ -1,13 +1,14 @@
 <template>
-  <li>
+  <li v-bind:class="getStatus">
     {{ getStatus }}
     <a
-      href="http://vuejs.org"
+      href="#foo"
       v-on:click="cancelClick"
     >{{ item }} Lorem ipsum dolor sit amet</a>
   </li>
 </template>
 <script>
+import { setTimeout } from 'timers';
 export default {
   name: "Hijo",
   props: {
@@ -25,12 +26,13 @@ export default {
         e.preventDefault();
       } else {
         this.hasClicked = true;
+        setTimeout( () => this.hasClicked = false, 300)
       }
     }
   },
   computed: {
     getStatus() {
-      return this.hasClicked ? "¡clic!" : "new";
+      return this.hasClicked ? "click" : "idle";
     }
   }
 };
