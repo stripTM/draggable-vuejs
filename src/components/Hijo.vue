@@ -3,7 +3,7 @@
     {{ getStatus }}
     <a
       href="#foo"
-      v-on:click="cancelClick"
+      v-on:click="handleClick"
     >{{ item }} Lorem ipsum dolor sit amet</a>
   </li>
 </template>
@@ -12,8 +12,7 @@ import { setTimeout } from 'timers';
 export default {
   name: "Hijo",
   props: {
-    item: Number,
-    preventClick: Boolean
+    item: Number
   },
   data() {
     return {
@@ -21,13 +20,9 @@ export default {
     };
   },
   methods: {
-    cancelClick(e) {
-      if (this.preventClick) {
-        e.preventDefault();
-      } else {
-        this.hasClicked = true;
-        setTimeout( () => this.hasClicked = false, 300)
-      }
+    handleClick() {
+      this.hasClicked = true;
+      setTimeout( () => this.hasClicked = false, 300)
     }
   },
   computed: {

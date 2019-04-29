@@ -33,7 +33,7 @@ export default {
   .disabled {
     cursor: grabbing;
   }
-  .disabled * {
+  .disabled > * {
     pointer-events: none;
   }
 </style>
