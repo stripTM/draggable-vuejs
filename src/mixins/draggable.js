@@ -57,8 +57,10 @@ export const draggable = {
         "ontouchstart" in window ? e.touches[0].clientY : e.clientY;
     },
     handleScroll(e) {
-      this.scrollX = e.target.scrollLeft;
-      this.scrollY = e.target.scrollTop;
+      if(!this.mouseDown) {
+        this.scrollX = e.target.scrollLeft;
+        this.scrollY = e.target.scrollTop;
+      }
     },
     handleMouseMove(e) {
       if (this.mouseDown) {
