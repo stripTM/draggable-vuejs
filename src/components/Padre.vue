@@ -75,6 +75,8 @@ export default {
         case (!this.inBeginningX && this.inEndX && this.inBeginningY && this.inEndY):
           styles.push('draggable.shadow-overflow-left')
           break
+        default:
+          break;
       }
       return styles
     }
