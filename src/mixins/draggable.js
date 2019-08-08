@@ -11,7 +11,8 @@ export const draggable = {
           minX: 0,
           maxX: 0,
           minY: 0,
-          maxY: 0
+          maxY: 0,
+          startMoveSafeArea: 4
       }
   },
   watch: {
@@ -88,13 +89,12 @@ export const draggable = {
           }
       },
       handleMouseMove(e) {
-          if (this.mouseDown) {
+          let positionX = ('ontouchstart' in window) ? e.touches[0].clientX : e.clientX
+          let positionY = ('ontouchstart' in window) ? e.touches[0].clientY : e.clientY
+          let dragDistanceX = positionX - this.dragStartX
+          let dragDistanceY = positionY - this.dragStartY
+          if (this.mouseDown && Math.abs(dragDistanceX) + Math.abs(dragDistanceY) >= this.startMoveSafeArea) {
               this.mouseMove = true
-              let positionX = ('ontouchstart' in window) ? e.touches[0].clientX : e.clientX
-              let positionY = ('ontouchstart' in window) ? e.touches[0].clientY : e.clientY
-              let dragDistanceX = positionX - this.dragStartX
-              let dragDistanceY = positionY - this.dragStartY
-
               this.scrollX -= dragDistanceX
               this.scrollY -= dragDistanceY
               this.dragStartX += dragDistanceX
