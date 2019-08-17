@@ -5,6 +5,7 @@
         v-bind:item="item"
         v-bind:key="item"/>
     </ul>
+    <label><input type="checkbox" v-model="scrollBarsVisibles"/> Show scroll bars</label>
   </section>
 </template>
 <script>
@@ -19,12 +20,14 @@ export default {
   },
   data() {
     return {
-      items: Array.apply(null, {length: 100}).map(Number.call, Number)
+      items: Array.apply(null, {length: 10}).map(Number.call, Number),
+      scrollBarsVisibles: true
     }
   },
   computed: {
     getClass() {
       let styles = []
+      this.scrollBarsVisibles && styles.push('noScrollBars')
       this.dragging && styles.push('disabled')
       switch(true) {
         case (this.inBeginningX && this.inEndX && this.inBeginningY && this.inEndY):
@@ -89,11 +92,16 @@ export default {
     cursor: grab;
     margin: 0;
     padding: 0;
+    border: 0.3rem solid black;
     list-style: none;
     width: 10rem;
     height: 10rem;
     overflow: auto;
     flex-wrap: wrap;
+  }
+  .noScrollBars {
+    overflow-x: hidden;
+    overflow-y: hidden;
   }
     .draggable::after {
       display: block;
@@ -102,92 +110,71 @@ export default {
       pointer-events: none;
       width: 10rem;
       height: 10rem;
-      transition: background-position .5s linear, background-size .5s linear;
-      background: linear-gradient(to right,
-     rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,.7) 100%),
-      linear-gradient(to bottom,
-     rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 80%, rgba(0,0,0,.7) 100%);
-      background-repeat: no-repeat;
-      background-size: 14rem; /* 10 + 4 */
-      background-position: center;
+      transition: box-shadow .5s linear;
     }
     .draggable.shadow-overflow-none::after {
-      background-position: center;
-      background-size: 14rem 14rem; /* 10 + 2 */
+       box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.80) inset,
+         0 0 0 0 rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-top::after {
-      background-position-y: 0;
-      background-size: 14rem 12rem; /* 10 + 2 */
+      box-shadow: 0 2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset,
+        0 0 0 0 rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-top-right::after {
-      background-position-x: -2rem;
-      background-position-y: 0;
-      background-size: 12rem 12rem; /* 10 + 2 */
+      box-shadow: -2rem 2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset,
+        0 0 0 0 rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-top-bottom::after {
-      background-position-x: center;
-      background-position-y: 0;
-      background-size: 14rem 10rem; /* 10 + 2 */
+      box-shadow: 0 2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset,
+        0 -2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-top-left::after {
-      background-position-x: 0;
-      background-position-y: 0;
-      background-size: 12rem 12rem; /* 10 + 2 */
+      box-shadow: 0 2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset,
+        2rem 0px 1rem -1rem rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-top-right-bottom::after {
-      background-position-x: -2rem;
-      background-position-y: 0;
-      background-size: 12rem 10rem; /* 10 + 2 */
+      box-shadow: -2rem 2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset,
+        0 -2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-top-bottom-left::after {
-      background-position-x: 0;
-      background-position-y: 0;
-      background-size: 12rem 10rem; /* 10 + 2 */
+      box-shadow: 0 2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset,
+       2rem -2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-top-right-left::after {
-      background-position-x: 0;
-      background-position-y: 0;
-      background-size: 10rem 12rem; /* 10 + 2 */
+      box-shadow: -2rem 2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset,
+       2rem 0px 1rem -1rem rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-top-right-bottom-left::after {
-      background-position-x: 0;
-      background-position-y: 0;
-      background-size: 10rem 10rem; /* 10 + 2 */
+      box-shadow: -2rem 2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset,
+       2rem -2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-right::after {
-      background-position-x: -2rem;
-      background-position-y: center;
-      background-size: 12rem 14rem; /* 10 + 2 */
+      box-shadow: -2rem 0px 1rem -1rem rgba(0, 0, 0, 0.80) inset,
+        0 0 0 0 rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-right-bottom::after {
-      background-position-x: -2rem;
-      background-position-y: -2rem;
-      background-size: 12rem 12rem; /* 10 + 2 */
+      box-shadow: -2rem 0px 1rem -1rem rgba(0, 0, 0, 0.80) inset,
+        0 -2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset;;
     }
     .draggable.shadow-overflow-right-left::after {
-      background-position-x: 0;
-      background-position-y: center;
-      background-size: 10rem 14rem;
+      box-shadow: -2rem 0px 1rem -1rem rgba(0, 0, 0, 0.80) inset,
+       2rem 0px 1rem -1rem rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-right-bottom-left::after {
-      background-position-x: 0;
-      background-position-y: -2rem;
-      background-size: 10rem 12rem;
+      box-shadow: -2rem 0px 1rem -1rem rgba(0, 0, 0, 0.80) inset,
+       2rem -2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-bottom::after {
-      background-position-x: center;
-      background-position-y: -2rem;
-      background-size: 14rem 12rem; /* 10 + 2 */
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.80) inset,
+        0 -2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-bottom-left::after {
-      background-position-x: 0;
-      background-position-y: -2rem;
-      background-size: 12rem 12rem; /* 10 + 2 */
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.80) inset,
+        2rem -2rem 1rem -1rem rgba(0, 0, 0, 0.80) inset;
     }
     .draggable.shadow-overflow-left::after {
-      background-position-x: 0;
-      background-position-y: center;
-      background-size: 12rem 14rem; /* 10 + 2 */
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.80) inset,
+        2rem 0px 1rem -1rem rgba(0, 0, 0, 0.80) inset;
     }
     */
   .draggable li {
